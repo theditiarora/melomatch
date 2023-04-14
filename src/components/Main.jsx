@@ -1,7 +1,14 @@
 "use client"
-import {signIn} from "next-auth/react"
+import {useSession, signOut, signIn} from "next-auth/react"
 
 const Main = () => {
+  const { data: session } = useSession()
+  if(session) {
+    return <>
+      Signed in as {session.user.name} <br/>
+      <button onClick={() => signOut()}>Sign out</button>
+    </>
+  }
   return (
     <div className=' min-w-screen flex flex-col justify-start items-center'>
 
