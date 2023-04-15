@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Raleway } from "next/font/google";
 import SessionProviders from "./sessionProvider";
+import { AuthProvider } from "@/AuthContext";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -16,20 +17,22 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`bg-[#FFF8EE] ${raleway.className} mx-20 mt-10`}>
-        <SessionProviders>
-          <p className="text-[#525252] font-semibold">MeloMatch</p>
-          {children}
-          <p className="absolute bottom-4 text-center left-0 right-0">
-            project for n&w by{" "}
-            <a
-              target="_blank"
-              className="font-semibold "
-              href="https://twitter.com/theditiarora"
-            >
-              diti
-            </a>
-          </p>
-        </SessionProviders>
+        <AuthProvider>
+          <SessionProviders>
+            <p className="text-[#525252] font-semibold">MeloMatch</p>
+            {children}
+            <p className="absolute bottom-4 text-center left-0 right-0">
+              project for n&w by{" "}
+              <a
+                target="_blank"
+                className="font-semibold "
+                href="https://twitter.com/theditiarora"
+              >
+                diti
+              </a>
+            </p>
+          </SessionProviders>
+        </AuthProvider>
       </body>
     </html>
   );
