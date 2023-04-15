@@ -2,17 +2,20 @@
 import {useSession, signOut, signIn} from "next-auth/react"
 import { useAuth } from "../AuthContext";
 import { getFirestore } from "firebase/firestore";
+import GetTracks from "./GetTracks";
 
 const Main = () => {
-  const { signedin, setSignedin, data, setData } = useAuth()
+  const { signedin, setSignedin, user, setUser } = useAuth()
 
   const { data: session } = useSession()
   if(session) {
     setSignedin(true)
-    setData(session.user)
-    console.log(data);
+    setUser(session.user)
+    console.log(user);
+
     return <>
       Signed in as {session.user.name} <br/>
+      <GetTracks />
       <button onClick={() => {
         signOut()
         setSignedin(false)
