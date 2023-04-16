@@ -1,8 +1,10 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext";
 
 const GetTracks = () => {
   const { setData, data, user } = useAuth();
+  const [artists, setArtists] = useState([])
 
   const getTracks = async e  => {
     e.preventDefault()
@@ -19,8 +21,34 @@ const GetTracks = () => {
       trackParams
     )
       .then((resp) => resp.json())
-      .then((res) => console.log(res.items));
-  };
+      .then((res) => {
+        const songs  = res.items.map(item => item.artists[0].id )
+        setArtists(songs)
+      });
+  }
+
+  useEffect( () => {
+    if(artists) {
+      artists.map(async id => {
+        var trackParams = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + user.accessToken,
+          },
+        }
+
+        await fetch(
+          `https://api.spotify.com/v1/artists/${id}`,
+          trackParams
+        )
+          .then((resp) => resp.json())
+          .then((res) => {
+            console.log(res.genres);
+          });
+      })
+    }
+  }, [artists])
 
   return (
     <div>

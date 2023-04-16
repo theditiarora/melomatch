@@ -11,7 +11,6 @@ const Main = () => {
   if(session) {
     setSignedin(true)
     setUser(session.user)
-    console.log(user);
 
     return <>
       Signed in as {session.user.name} <br/>
